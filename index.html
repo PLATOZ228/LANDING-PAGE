@@ -218,17 +218,18 @@
             </div>
         </section>
 
-         <section class="newsletter-section">
-            <div class="main-wrapper">
-                <p class="newsletter-subscribe-text">
-                    <span class="subscribe-highlight">Subscribe To Our</span> NEWSLETTER
-                </p>
-                <div class="newsletter-form">
-                    <input type="email" placeholder="Enter your email">
-                    <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </section>
+    <section class="newsletter-section">
+    <div class="main-wrapper">
+        <p class="newsletter-subscribe-text">
+            <span class="subscribe-highlight">Subscribe To Our</span> NEWSLETTER
+        </p>
+        <form class="newsletter-form" id="telegramForm">
+            <input type="email" placeholder="Enter your email" id="emailInput" required>
+            <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+    </div>
+</section>
+
     </main>
     <footer>
         <div class="main-wrapper">
@@ -243,5 +244,42 @@
             <p>Misma 2025 All Rights Reserved</p>
         </div>
     </footer>
+<script>
+  document.getElementById('telegramForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('emailInput').value;
+
+    // 🔁 ЗАМЕНИ на свои значения
+    const botToken = 'YOUR_BOT_TOKEN';
+    const chatId = 'YOUR_CHAT_ID';
+
+    const message = `📩 Новая подписка на рассылку:\nEmail: ${email}`;
+
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('✅ Спасибо! Вы подписаны.');
+        document.getElementById('telegramForm').reset();
+      } else {
+        alert('❌ Ошибка при отправке. Попробуйте снова.');
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+      alert('❌ Ошибка соединения. Проверьте интернет.');
+    });
+  });
+</script>
+
 </body>
 </html>
